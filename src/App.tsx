@@ -1,8 +1,5 @@
 function App() {
-
-  return (
-    <div>Pomodoro Timer</div>
-  )
+  return <div>Pomodoro Timer</div>;
 }
 
-export default App
+export default App;

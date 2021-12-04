@@ -9,9 +9,9 @@
     "serve": "vite preview --port 8080",
     "test": "jest",
     "test-watch": "jest --watch",
+    "eslint": "eslint --cache --ext .js,.ts,.tsx src",
     "stylelint": "stylelint src/**/*.css",
-    "stylelint:fix": "stylelint src/**/*.css --fix",
-    "eslint": "eslint"
+    "lint": "npm run eslint && npm run stylelint"
   },
   "dependencies": {
     "react": "^17.0.0",
@@ -23,13 +23,30 @@
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
     "@vitejs/plugin-react": "^1.0.0",
     "autoprefixer": "^10.4.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-testing-library": "^5.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.3",
     "postcss-color-mod-function": "^3.0.3",
     "postcss-import": "^14.0.2",
     "postcss-nested": "^5.0.6",
+    "prettier": "^2.5.1",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
     "ts-jest": "^27.0.7",
@@ -38,5 +55,8 @@
   },
   "browserslist": [
     "last 2 versions"
-  ]
+  ],
+  "eslintConfig": {
+    "extends": "react-app"
+  }
 }
