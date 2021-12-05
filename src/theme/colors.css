@@ -1,10 +1,12 @@
 :root {
+  --black-color-transparent: #0006;
   --black-color: #000;
   --darkest-color: #17171a;
   --darker-color: #2b2a30;
   --dark-color: #3a393f;
   --gray-color: #585858;
   --white-color: #fff;
+  --white-color-transparent: rgb(255 255 255 / 15%);
   --start-color: #9d0000;
   --stop-color: #00aa51;
 }

@@ -8,7 +8,7 @@
   background: var(--black-color);
   box-shadow:
     -5px 14px 44px 0 var(--black-color),
-    5px -16px 50px 0 color-mod(var(--white-color) a(15%))
+    5px -16px 50px 0 var(--white-color-transparent)
 }
 
 .inner {
@@ -27,7 +27,7 @@
   font-family: "Bebas neue", sans-serif;
   color: var(--white-color);
   font-size: 190px;
-  text-shadow: 0 4px 4px color-mod(var(--black-color) a(40%));
+  text-shadow: 0 4px 4px var(--black-color-transparent);
 }
 
 .trigger {
@@ -38,7 +38,7 @@
   letter-spacing: 0.6em;
   font-weight: bold;
   text-transform: uppercase;
-  text-shadow: 0 4px 4px color-mod(var(--black-color) a(40%));
+  text-shadow: 0 4px 4px var(--black-color-transparent);
   background: none;
   border: none;
   cursor: pointer;
@@ -46,5 +46,5 @@
 
 .config {
   color: var(--gray-color);
-  filter: drop-shadow(0 4px 4px color-mod(var(--black-color) a(40%)))
+  filter: drop-shadow(0 4px 4px var(--black-color-transparent))
 }
