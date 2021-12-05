@@ -18,7 +18,6 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: "module",
   },
-  parser: "@typescript-eslint/parser",
   plugins: ["jest", "testing-library"],
   rules: {
     "react/jsx-uses-react": "off",
