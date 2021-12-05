@@ -50,7 +50,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: Cache node_modules
+      - name: Npm cache
         id: npm-cache
         run: |
           echo "::set-output name=dir::$(npm config get cache)"
@@ -61,7 +61,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
+        if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Build
         run: npm run build
