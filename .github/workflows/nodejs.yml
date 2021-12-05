@@ -5,16 +5,19 @@ on:
     branches:
       - main
 
-jobs:
-  build-node:
-    runs-on: ubuntu-latest
+env:
+  NODE_VERSION: "16.x"
 
+jobs:
+  validate:
+    name: Lint & Test
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js 16.x
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: ${{ env.NODE_VERSION }}
       - name: Get npm cache directory
         id: npm-cache
         run: |
@@ -35,3 +38,37 @@ jobs:
         run: npm run lint
       - name: Run tests
         run: npm run test
+
+  deploy:
+    name: Deploy to github pages
+    needs: [validate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Cache node_modules
+        id: npm-cache
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: deploy
+          FOLDER: dist
+          SINGLE_COMMIT: true
