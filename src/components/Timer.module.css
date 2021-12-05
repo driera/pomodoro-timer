@@ -1,0 +1,46 @@
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 518px;
+  height: 518px;
+  border-radius: 500px;
+  background: var(--black-color);
+  box-shadow:
+    -5px 14px 44px 0 var(--black-color),
+    5px -16px 50px 0 color-mod(var(--white-color) a(15%))
+}
+
+.inner {
+  display: grid;
+  grid-auto-flow: row;
+  justify-items: center;
+  align-content: flex-end;
+  width: 500px;
+  height: 500px;
+  padding: 70px 50px 50px;
+  border-radius: 500px;
+  background: radial-gradient(at 50% 30%, var(--dark-color), var(--darkest-color));
+}
+
+.counter {
+  font-family: "Bebas neue", sans-serif;
+  color: var(--white-color);
+  font-size: 190px;
+  text-shadow: 0 4px 4px color-mod(var(--black-color) a(40%));
+}
+
+.trigger {
+  margin-bottom: 30px;
+  font-family: Montserrat, sans-serif;
+  color: var(--white-color);
+  letter-spacing: 0.6em;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0 4px 4px color-mod(var(--black-color) a(40%));
+}
+
+.config {
+  color: var(--gray-color);
+  filter: drop-shadow(0 4px 4px color-mod(var(--black-color) a(40%)))
+}

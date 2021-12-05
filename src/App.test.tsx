@@ -4,6 +4,6 @@ import App from "./App";
 it("renders", () => {
   render(<App></App>);
 
-  const text = screen.getByText(/Pomodoro Timer/);
+  const text = screen.getByLabelText(/Pomodoro Timer/);
   expect(text).toBeInTheDocument();
 });
