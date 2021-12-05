@@ -31,6 +31,7 @@
 }
 
 .trigger {
+  padding: 0;
   margin-bottom: 30px;
   font-family: Montserrat, sans-serif;
   color: var(--white-color);
@@ -38,6 +39,9 @@
   font-weight: bold;
   text-transform: uppercase;
   text-shadow: 0 4px 4px color-mod(var(--black-color) a(40%));
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .config {
