@@ -1,3 +1,4 @@
 body {
   font-family: "Bebas neue", sans-serif;
+  background: var(--darker-color);
 }
