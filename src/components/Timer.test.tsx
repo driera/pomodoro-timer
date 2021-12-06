@@ -6,7 +6,7 @@ describe("Timer", () => {
   it("renders initial time", () => {
     render(<Timer />);
 
-    const counter = screen.getByText("15:00");
+    const counter = screen.getByRole("timer");
     expect(counter).toBeInTheDocument();
   });
 
@@ -14,14 +14,36 @@ describe("Timer", () => {
     jest.useFakeTimers();
     render(<Timer />);
 
-    const startButton = screen.getByRole("button", { name: "start" });
-    fireEvent.click(startButton);
+    toggleTimer();
     act(() => {
       jest.advanceTimersByTime(1000);
     });
 
-    const counter = screen.getByText("14:59");
-    expect(counter).toBeInTheDocument();
+    const counter = screen.getByRole("timer");
+    expect(counter).toHaveTextContent("14:59");
     jest.useRealTimers();
   });
+
+  it("can be stoped white running", () => {
+    jest.useFakeTimers();
+    render(<Timer />);
+
+    toggleTimer();
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    toggleTimer();
+    jest.advanceTimersByTime(1000);
+
+    const counter = screen.getByRole("timer");
+    expect(counter).toHaveTextContent("14:59");
+    jest.useRealTimers();
+  });
+
+  const toggleTimer = () => {
+    const toggleButton = screen.getByRole("button", {
+      name: "Toggle pomodoro timer",
+    });
+    fireEvent.click(toggleButton);
+  };
 });
