@@ -6,8 +6,7 @@ describe("Timer", () => {
   it("renders initial time", () => {
     render(<Timer />);
 
-    const counter = screen.getByRole("timer");
-    expect(counter).toBeInTheDocument();
+    expect(screen.getByRole("timer")).toBeInTheDocument();
   });
 
   it("starts counting down after clicking start", async () => {
@@ -19,8 +18,7 @@ describe("Timer", () => {
       jest.advanceTimersByTime(1000);
     });
 
-    const counter = screen.getByRole("timer");
-    expect(counter).toHaveTextContent("14:59");
+    expect(screen.getByRole("timer")).toHaveTextContent("14:59");
     jest.useRealTimers();
   });
 
@@ -35,8 +33,22 @@ describe("Timer", () => {
     toggleTimer();
     jest.advanceTimersByTime(1000);
 
-    const counter = screen.getByRole("timer");
-    expect(counter).toHaveTextContent("14:59");
+    expect(screen.getByRole("timer")).toHaveTextContent("14:59");
+    jest.useRealTimers();
+  });
+
+  it("can be triggered through keyboard", () => {
+    jest.useFakeTimers();
+    render(<Timer />);
+
+    toggleTimerUsingKeyboard();
+
+    expect(
+      screen.getByRole("button", {
+        name: "Toggle pomodoro timer",
+        pressed: true,
+      })
+    ).toBeInTheDocument();
     jest.useRealTimers();
   });
 
@@ -45,5 +57,9 @@ describe("Timer", () => {
       name: "Toggle pomodoro timer",
     });
     fireEvent.click(toggleButton);
+  };
+
+  const toggleTimerUsingKeyboard = () => {
+    fireEvent.keyDown(window, { code: "Space" });
   };
 });

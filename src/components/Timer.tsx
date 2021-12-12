@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GearIcon from "./icons/gear";
 import classes from "./Timer.module.css";
 
@@ -7,18 +7,32 @@ const Timer = (): JSX.Element => {
   const [status, setStatus] = useState<"idle" | "play">("idle");
   const [intervalId, setIntervalId] = useState<number>();
 
-  const handleStart = () => {
+  const handleStart = useCallback(() => {
     if (status === "play") {
       clearInterval(intervalId);
       setStatus("idle");
-    } else {
-      setIntervalId(
-        // @ts-expect-error TODO
-        setInterval(() => setTimer((prevState) => prevState - 1000), 1000)
-      );
-      setStatus("play");
+      return;
     }
-  };
+    setIntervalId(
+      // @ts-expect-error TODO
+      setInterval(() => setTimer((prevState) => prevState - 1000), 1000)
+    );
+    setStatus("play");
+  }, [intervalId, status]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Enter" || e.code === "Space") {
+        setStatus(status === "idle" ? "play" : "idle");
+        handleStart();
+        window.removeEventListener("keydown", handleKeyDown);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleStart, status, timer]);
 
   return (
     <div className={classes.container} aria-label="Pomodoro Timer">
