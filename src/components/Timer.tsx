@@ -2,8 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import GearIcon from "./icons/gear";
 import classes from "./Timer.module.css";
 
-const Timer = (): JSX.Element => {
-  const [timer, setTimer] = useState<number>(900000);
+type Props = {
+  duration?: number;
+};
+
+const Timer = ({ duration = 3000 }: Props): JSX.Element => {
+  const [timer, setTimer] = useState<number>(duration);
   const [status, setStatus] = useState<"idle" | "play">("idle");
   const [intervalId, setIntervalId] = useState<number>();
 
@@ -33,6 +37,14 @@ const Timer = (): JSX.Element => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleStart, status, timer]);
+
+  useEffect(() => {
+    if (timer <= 0) {
+      clearInterval(intervalId);
+      setStatus("idle");
+      setTimer(0);
+    }
+  }, [intervalId, timer]);
 
   return (
     <div className={classes.container} aria-label="Pomodoro Timer">

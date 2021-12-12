@@ -9,9 +9,9 @@ describe("Timer", () => {
     expect(screen.getByRole("timer")).toBeInTheDocument();
   });
 
-  it("starts counting down after clicking start", async () => {
+  it("starts counting down after clicking start", () => {
     jest.useFakeTimers();
-    render(<Timer />);
+    render(<Timer duration={900000} />);
 
     toggleTimer();
     act(() => {
@@ -22,9 +22,22 @@ describe("Timer", () => {
     jest.useRealTimers();
   });
 
+  it("stops when reaching 0", () => {
+    jest.useFakeTimers();
+    render(<Timer duration={1000} />);
+
+    toggleTimer();
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+    expect(screen.getByRole("timer")).toHaveTextContent("00:00");
+
+    jest.useRealTimers();
+  });
+
   it("can be stoped white running", () => {
     jest.useFakeTimers();
-    render(<Timer />);
+    render(<Timer duration={900000} />);
 
     toggleTimer();
     act(() => {
