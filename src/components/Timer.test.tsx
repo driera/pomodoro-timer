@@ -9,60 +9,87 @@ describe("Timer", () => {
     expect(screen.getByRole("timer")).toBeInTheDocument();
   });
 
-  it("starts counting down after clicking start", () => {
-    jest.useFakeTimers();
-    render(<Timer duration={900000} />);
+  describe("plays with time", () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
 
-    toggleTimer();
-    act(() => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it("starts counting down after clicking start", () => {
+      render(<Timer duration={900000} />);
+
+      toggleTimer();
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+
+      expect(screen.getByRole("timer")).toHaveTextContent("14:59");
+    });
+
+    it("stops when reaching 0", () => {
+      render(<Timer duration={1000} />);
+
+      toggleTimer();
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(screen.getByRole("timer")).toHaveTextContent("00:00");
+    });
+
+    it("can be stoped white running", () => {
+      render(<Timer duration={900000} />);
+
+      toggleTimer();
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      toggleTimer();
       jest.advanceTimersByTime(1000);
+
+      expect(screen.getByRole("timer")).toHaveTextContent("14:59");
     });
 
-    expect(screen.getByRole("timer")).toHaveTextContent("14:59");
-    jest.useRealTimers();
-  });
+    it("can be triggered through keyboard", () => {
+      render(<Timer />);
 
-  it("stops when reaching 0", () => {
-    jest.useFakeTimers();
-    render(<Timer duration={1000} />);
+      toggleTimerUsingKeyboard();
 
-    toggleTimer();
-    act(() => {
-      jest.advanceTimersByTime(2000);
+      expect(
+        screen.getByRole("button", {
+          name: "Toggle pomodoro timer",
+          pressed: true,
+        })
+      ).toBeInTheDocument();
     });
-    expect(screen.getByRole("timer")).toHaveTextContent("00:00");
 
-    jest.useRealTimers();
-  });
+    it("shows reset button when reaching 0", () => {
+      render(<Timer duration={1000} />);
 
-  it("can be stoped white running", () => {
-    jest.useFakeTimers();
-    render(<Timer duration={900000} />);
+      toggleTimer();
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
 
-    toggleTimer();
-    act(() => {
-      jest.advanceTimersByTime(1000);
+      expect(
+        screen.getByRole("button", { name: "Reset pomodoro timer" })
+      ).toBeInTheDocument();
     });
-    toggleTimer();
-    jest.advanceTimersByTime(1000);
 
-    expect(screen.getByRole("timer")).toHaveTextContent("14:59");
-    jest.useRealTimers();
-  });
+    it("shows initial duration after resetting counter", () => {
+      render(<Timer duration={1000} />);
 
-  it("can be triggered through keyboard", () => {
-    jest.useFakeTimers();
-    render(<Timer />);
+      toggleTimer();
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+      resetTimer();
 
-    toggleTimerUsingKeyboard();
-
-    expect(
-      screen.getByRole("button", {
-        name: "Toggle pomodoro timer",
-        pressed: true,
-      })
-    ).toBeInTheDocument();
-    jest.useRealTimers();
+      expect(screen.getByRole("timer")).toHaveTextContent("00:01");
+    });
   });
 
   const toggleTimer = () => {
@@ -74,5 +101,12 @@ describe("Timer", () => {
 
   const toggleTimerUsingKeyboard = () => {
     fireEvent.keyDown(window, { code: "Space" });
+  };
+
+  const resetTimer = () => {
+    const resetButton = screen.getByRole("button", {
+      name: "Reset pomodoro timer",
+    });
+    fireEvent.click(resetButton);
   };
 });

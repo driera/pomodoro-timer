@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import GearIcon from "./icons/gear";
 import classes from "./Timer.module.css";
+import Trigger from "./Trigger";
 
 type Props = {
   duration?: number;
@@ -8,10 +9,10 @@ type Props = {
 
 const Timer = ({ duration = 3000 }: Props): JSX.Element => {
   const [timer, setTimer] = useState<number>(duration);
-  const [status, setStatus] = useState<"idle" | "play">("idle");
+  const [status, setStatus] = useState<"idle" | "play" | "reset">("idle");
   const [intervalId, setIntervalId] = useState<number>();
 
-  const handleStart = useCallback(() => {
+  const handleToggle = useCallback(() => {
     if (status === "play") {
       clearInterval(intervalId);
       setStatus("idle");
@@ -24,11 +25,20 @@ const Timer = ({ duration = 3000 }: Props): JSX.Element => {
     setStatus("play");
   }, [intervalId, status]);
 
+  const handleReset = useCallback(() => {
+    setTimer(duration);
+    setStatus("idle");
+  }, [duration]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Enter" || e.code === "Space") {
-        setStatus(status === "idle" ? "play" : "idle");
-        handleStart();
+        if (status === "reset") {
+          handleReset();
+        } else {
+          setStatus(status === "idle" ? "play" : "idle");
+          handleToggle();
+        }
         window.removeEventListener("keydown", handleKeyDown);
       }
     };
@@ -36,12 +46,12 @@ const Timer = ({ duration = 3000 }: Props): JSX.Element => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleStart, status, timer]);
+  }, [handleReset, handleToggle, status, timer]);
 
   useEffect(() => {
     if (timer <= 0) {
       clearInterval(intervalId);
-      setStatus("idle");
+      setStatus("reset");
       setTimer(0);
     }
   }, [intervalId, timer]);
@@ -57,14 +67,12 @@ const Timer = ({ duration = 3000 }: Props): JSX.Element => {
         >
           {msToTime(timer)}
         </div>
-        <button
-          className={classes.trigger}
-          onClick={handleStart}
-          aria-label="Toggle pomodoro timer"
-          aria-pressed={status === "play"}
-        >
-          {status === "idle" ? "start" : "stop"}
-        </button>
+
+        <Trigger
+          onToggle={handleToggle}
+          onReset={handleReset}
+          status={status}
+        />
         <div className={classes.config}>
           <GearIcon />
         </div>

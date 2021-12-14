@@ -30,20 +30,6 @@
   text-shadow: 0 4px 4px var(--black-color-transparent);
 }
 
-.trigger {
-  padding: 0;
-  margin-bottom: 30px;
-  font-family: Montserrat, sans-serif;
-  color: var(--white-color);
-  letter-spacing: 0.6em;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-shadow: 0 4px 4px var(--black-color-transparent);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .config {
   color: var(--gray-color);
   filter: drop-shadow(0 4px 4px var(--black-color-transparent))
