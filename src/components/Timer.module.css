@@ -30,6 +30,7 @@
   color: var(--white-color);
   font-size: 190px;
   text-shadow: 0 4px 4px var(--black-color-transparent);
+  font-variant-numeric: tabular-nums;
 }
 
 .config {
