@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import GearIcon from "./icons/gear";
+import Spinner from "./Spinner";
 import classes from "./Timer.module.css";
 import Trigger from "./Trigger";
 
@@ -20,7 +21,7 @@ const Timer = ({ duration = 3000 }: Props): JSX.Element => {
     }
     setIntervalId(
       // @ts-expect-error TODO
-      setInterval(() => setTimer((prevState) => prevState - 1000), 1000)
+      setInterval(() => setTimer((prevState) => prevState - 10), 10)
     );
     setStatus("play");
   }, [intervalId, status]);
@@ -58,6 +59,7 @@ const Timer = ({ duration = 3000 }: Props): JSX.Element => {
 
   return (
     <div className={classes.container} aria-label="Pomodoro Timer">
+      <Spinner elapsed={timer} total={duration} color="var(--start-color)" />
       <div className={classes.inner}>
         <div
           className={classes.counter}
