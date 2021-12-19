@@ -10,8 +10,8 @@
 @font-face {
   font-family: "Bebas neue";
   src:
-    url("bebasneue-book-webfont.woff2") format("woff2"),
-    url("bebasneue-book-webfont.woff") format("woff");
+    url("./fonts/bebasneue-book-webfont.woff2") format("woff2"),
+    url("./fonts/bebasneue-book-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
