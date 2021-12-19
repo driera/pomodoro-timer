@@ -4,7 +4,7 @@ import Timer from "./components/Timer";
 function App() {
   return (
     <div className={classes.app}>
-      <Timer></Timer>
+      <Timer duration={1500000}></Timer>
     </div>
   );
 }
